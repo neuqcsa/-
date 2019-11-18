@@ -19,7 +19,29 @@ if(size > 16)
         return 0;
     }
 ```
-read的count参数是无符号型，-1补码0xffffffff，对应最大的无符号数，导致溢出，覆盖返回地址为后门函数即可。
+read的count参数是无符号型，-1补码0xffffffff，对应最大的无符号数，导致溢出。
+这里main函数里栈布局有点不同
+函数开始时：
+```
+.text:080484D4 ; __unwind {
+.text:080484D4                 lea     ecx, [esp+4]
+.text:080484D8                 and     esp, 0FFFFFFF0h
+.text:080484DB                 push    dword ptr [ecx-4]
+.text:080484DE                 push    ebp
+.text:080484DF                 mov     ebp, esp
+.text:080484E1                 push    ecx
+.text:080484E2                 sub     esp, 24h
+```
+返回时:
+```
+.text:08048549                 mov     ecx, [ebp+var_4]
+.text:0804854C                 leave
+.text:0804854D                 lea     esp, [ecx-4]
+.text:08048550                 retn
+```
+根据ecx保存的栈地址，来复原esp，所以溢出的时候会溢出到ecx。详细的利用手法看这里:
+http://dittozzz.top/2019/03/24/Securinets-CTF-Quals-2019-%E9%83%A8%E5%88%86pwn%E9%A2%98wp/#more
+baby2
 
 ### re1:
 
