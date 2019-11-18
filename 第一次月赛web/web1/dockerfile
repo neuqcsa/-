@@ -1,0 +1,10 @@
+FROM python:3.6.3
+COPY calculator /home/calculator
+COPY flag /flag
+RUN chmod -R 775 /home/calculator
+WORKDIR /home/calculator
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+RUN useradd zs
+USER zs
+ENTRYPOINT ["python"]
+CMD ["app.py"]
