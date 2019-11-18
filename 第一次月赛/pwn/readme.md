@@ -40,7 +40,7 @@ read的count参数是无符号型，-1补码0xffffffff，对应最大的无符�
 .text:0804854D                 lea     esp, [ecx-4]
 .text:08048550                 retn
 ```
-根据ecx保存的栈地址，来复原esp，所以溢出的时候会溢出到ecx。详细的利用手法看这里:
+根据ecx保存的栈地址，来复原esp，所以溢出的时候会溢出到saved ecx。详细的利用手法看这里:
 http://dittozzz.top/2019/03/24/Securinets-CTF-Quals-2019-%E9%83%A8%E5%88%86pwn%E9%A2%98wp/#more
 baby2
 
